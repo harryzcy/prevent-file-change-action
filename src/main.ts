@@ -25,6 +25,7 @@ async function run(): Promise<void> {
         core.setFailed('Base or head commit is missing in github event payload')
         return
       }
+      core.debug(`Base: ${base}, Head: ${head}, Basehead: ${base}..${head}`)
       const basehead = `${base}..${head}`
       files = await gitHubService.getChangedFilesForCommits(context.repo.owner, context.repo.repo, basehead)
     } else if (eventName === 'pull_request') {
