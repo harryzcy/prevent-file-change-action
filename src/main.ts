@@ -26,6 +26,7 @@ async function run(): Promise<void> {
         return
       }
       const basehead = `${base}..${head}`
+      core.debug(`Base='${base}', Head='${head}', Basehead='${basehead}'`)
       files = await gitHubService.getChangedFilesForCommits(context.repo.owner, context.repo.repo, basehead)
     } else if (eventName === 'pull_request') {
       const pullRequestNumber: number = context.payload?.pull_request?.number || 0
@@ -34,6 +35,7 @@ async function run(): Promise<void> {
         return
       }
 
+      core.debug(`Pull request number='${pullRequestNumber}'`)
       files = await gitHubService.getChangedFilesForPR(context.repo.owner, context.repo.repo, pullRequestNumber)
     } else {
       core.setFailed(`Only pull_request events are supported. Event was: ${eventName}`)
